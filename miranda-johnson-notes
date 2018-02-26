@@ -1,0 +1,32 @@
+IMPORTANT NOTE: My attempt at scaling this requires another library
+
+ npm install express-rate-limiter --save
+
+
+Just some initial thoughts:
+    Is patient data formatted for any standard? HL7/FHIR?
+        just a thought for improvement/expansion. I've worked on the integrations side of a CTMS that
+        wasn't designed with a thoughtful data structure for the patients. It makes communicating
+        with an EMR, or even other areas of the app a nightmare.
+
+        Implementing a HL7 FHIR endpoint for the application to communicate with an EMR made it much
+        easier to debug.
+
+Most of my comments are added as I start understanding or my best guess at what the line of code may be doing.
+
+I'm adding new lines to help myself put together what lines are related to a process of setting up the server/api.
+
+I'm using Postman to test this since it's what I'm most familiar with.
+
+Now that I have a bit more of an understanding of how the application works, the best way I know to address this is by
+using a scheduler.
+    This is where I'm really out of my comfort zone. In all honesty, I haven't worked with schedulers since my OS class.
+
+    What I do know is, there are probably a plethora of schedulers that can easily be brought into this project.
+    The hard part is knowing exactly what type of scheduler would best suit this situation. I assume this because
+    reinventing the wheel and trying to write my own scheduler would only end in embarrassment.
+
+From a quick search it looks like Agenda is what is used widely, but this requires a mongo db to be setup. Which, I'm
+sure goes beyond what you are looking for in this fix. I've implemented a rate limiter, but I feel like
+this isn't the correct solution. As this just blocks anyone spamming the rate. Ideally, we want both a limiter and a
+scheduler. Essentially only the first api post from a given address within the limit should be processed.
